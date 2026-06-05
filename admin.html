@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BTEC Unit 3: Digital Portfolio Design & Development – Evidence Checklist</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    /* ── Page header ──────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+      color: #fff;
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: .3rem; }
+    header p  { font-size: .95rem; opacity: .85; }
+
+    /* ── Progress summary bar (Progress bar removed) ────────── */
+    .summary {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .summary h2 { font-size: 1rem; font-weight: 600; flex: 1 0 100%; margin-bottom: -0.5rem; }
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .95rem;
+      font-weight: 600;
+    }
+    .stat .dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red    { background: #c53030; }
+    .dot-amber  { background: #d97706; }
+    .dot-green  { background: #276749; }
+
+    /* ── Legend key ──────────────────────────────────────────── */
+    .legend {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 2rem;
+      font-size: .88rem;
+    }
+    .legend strong { flex: 1 0 100%; font-size: .9rem; }
+    .legend-item { display: flex; align-items: center; gap: .4rem; }
+    .legend-swatch {
+      display: inline-block; width: 18px; height: 14px;
+      border-radius: 4px;
+    }
+    .swatch-red   { background: #fed7d7; border: 1.5px solid #c53030; }
+    .swatch-amber { background: #fef3c7; border: 1.5px solid #d97706; }
+    .swatch-green { background: #c6f6d5; border: 1.5px solid #276749; }
+
+    /* ── Main table card ──────────────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    /* Section header rows */
+    .section-row td {
+      background: #2b6cb0;
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      padding: .75rem 1rem;
+      letter-spacing: .02em;
+    }
+    /* Column headings */
+    thead th {
+      background: #2d3748;
+      color: #e2e8f0;
+      font-size: .82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: .65rem 1rem;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    /* Data rows */
+    tbody tr.task-row {
+      border-bottom: 1px solid #e2e8f0;
+      transition: background .15s;
+    }
+    tbody tr.task-row:hover { background: #f7fafc; }
+
+    td {
+      padding: .7rem 1rem;
+      vertical-align: middle;
+      font-size: .9rem;
+    }
+    /* Colour-coded status row backgrounds */
+    .status-red    { background: #fff5f5 !important; }
+    .status-amber  { background: #fffbeb !important; }
+    .status-green  { background: #f0fff4 !important; }
+
+    /* ── Checkbox (done tick) ─────────────────────────────────── */
+    .done-check {
+      width: 20px; height: 20px;
+      cursor: pointer;
+      accent-color: #38a169;
+    }
+
+    /* ── Status select ────────────────────────────────────────── */
+    .status-select {
+      border: 1.5px solid #cbd5e0;
+      border-radius: 6px;
+      padding: .3rem .5rem;
+      font-size: .85rem;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color .2s;
+    }
+    .status-select:focus { outline: none; border-color: #4299e1; }
+
+    /* Colour-coded select backgrounds */
+    .sel-red   { background: #fed7d7; border-color: #c53030; color: #742a2a; }
+    .sel-amber { background: #fef3c7; border-color: #d97706; color: #78350f; }
+    .sel-green { background: #c6f6d5; border-color: #276749; color: #22543d; }
+
+    /* ── Deadline pill ────────────────────────────────────────── */
+    .deadline {
+      white-space: nowrap;
+      font-size: .82rem;
+      color: #4a5568;
+    }
+    .deadline.overdue { color: #c53030; font-weight: 700; }
+
+    /* ── Notes textarea ───────────────────────────────────────── */
+    .notes-input {
+      width: 100%;
+      min-width: 140px;
+      resize: vertical;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      padding: .3rem .5rem;
+      font-size: .82rem;
+      font-family: inherit;
+      background: #f7fafc;
+    }
+    .notes-input:focus { outline: none; border-color: #4299e1; background: #fff; }
+
+    /* ── Action bar (reset + downloads) ──────────────────────── */
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn-reset {
+      background: #e53e3e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: .6rem 1.2rem;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-reset:hover { background: #c53030; }
+
+    /* ── Download buttons ─────────────────────────────────────── */
+    .download-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .download-label {
+      font-size: .88rem;
+      font-weight: 600;
+      color: #4a5568;
+    }
+    .btn-download {
+      border: none;
+      border-radius: 8px;
+      padding: .6rem 1.1rem;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+      color: #fff;
+    }
+    .btn-csv  { background: #2f855a; }
+    .btn-csv:hover  { background: #276749; }
+    .btn-xlsx { background: #2b6cb0; }
+    .btn-xlsx:hover { background: #2c5282; }
+    .btn-word { background: #6b46c1; }
+    .btn-word:hover { background: #553c9a; }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      table { display: block; overflow-x: auto; }
+      header h1 { font-size: 1.2rem; }
+    }
+
+    /* ── Assignment brief panel ───────────────────────────────── */
+    .brief-panel {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      border-left: 5px solid #2b6cb0;
+    }
+    .brief-panel h2 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: #2b6cb0;
+      margin-bottom: .7rem;
+      letter-spacing: .02em;
+    }
+    .brief-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .3rem 1rem;
+      font-size: .875rem;
+    }
+    .brief-label {
+      font-weight: 600;
+      color: #4a5568;
+      white-space: nowrap;
+    }
+    .brief-value { color: #1a202c; }
+    .brief-value.date-highlight {
+      font-weight: 700;
+      color: #c53030;
+    }
+    .brief-value.issue-highlight {
+      font-weight: 700;
+      color: #276749;
+    }
+
+    /* ── Criteria badge ───────────────────────────────────────── */
+    .criteria {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: .15rem .45rem;
+      border-radius: 4px;
+      background: #ebf4ff;
+      color: #2b6cb0;
+      border: 1px solid #bee3f8;
+      white-space: nowrap;
+      margin: .1rem .1rem .1rem 0;
+    }
+    .criteria-d1 { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
+    .criteria-m1 { background: #fffff0; color: #744210; border-color: #f6e05e; }
+    .criteria-p1 { background: #ebf4ff; color: #2b6cb0; border-color: #bee3f8; }
+    .criteria-d2 { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
+    .criteria-m2 { background: #fffff0; color: #744210; border-color: #f6e05e; }
+    .criteria-p2 { background: #ebf4ff; color: #2b6cb0; border-color: #bee3f8; }
+    .criteria-p3 { background: #ebf4ff; color: #2b6cb0; border-color: #bee3f8; }
+    .criteria-1b { background: #fff5f5; color: #742a2a; border-color: #feb2b2; }
+
+    footer {
+      text-align: center;
+      font-size: .8rem;
+      color: #718096;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📋 BTEC Level 1 &amp; 2 – Unit 3: A Digital Portfolio</h1>
+  <p>Assignment 1 & 2: Portfolio Design, Development and Testing &nbsp;·&nbsp; Assessor: Sixth-Form Portfolio Assessor</p>
+</header>
+
+<!-- ── Assignment Brief Info Panel ─────────────────── -->
+<div class="brief-panel">
+  <h2>📄 Assignment Brief</h2>
+  <div class="brief-grid">
+    <span class="brief-label">Qualification:</span>
+    <span class="brief-value">Pearson BTEC Level 1/2 First Award in Information and Creative Technology</span>
+    <span class="brief-label">Classification:</span>
+    <span class="brief-value">DCL 1</span>
+    <span class="brief-label">Unit:</span>
+    <span class="brief-value">Unit 3: A Digital Portfolio</span>
+    <span class="brief-label">Learning Aims:</span>
+    <span class="brief-value">Aim A: Design a digital portfolio &nbsp;·&nbsp; Aim B: Create and test a digital portfolio</span>
+    <span class="brief-label">Assignment Title:</span>
+    <span class="brief-value">Assignment 1: Digital Portfolio Planning and Construction</span>
+    <span class="brief-label">Assessor:</span>
+    <span class="brief-value">Sixth-Form Portfolio Assessor</span>
+    <span class="brief-label">Issue Date:</span>
+    <span class="brief-value issue-highlight">August 2025</span>
+    <span class="brief-label">Date:</span>
+    <span class="brief-value">29</span>
+    <span class="brief-label">Hand-in Deadline:</span>
+    <span class="brief-value date-highlight">Friday 15th May 2026 &nbsp;·&nbsp; 3:59pm</span>
+  </div>
+</div>
+
+<!-- ── Progress summary ─────────────────────────────── -->
+<div class="summary" id="summary">
+  <h2>Overall Progress</h2>
+  <div class="stat"><span class="dot dot-red"></span>   <span id="cnt-red">0</span> Not Started</div>
+  <div class="stat"><span class="dot dot-amber"></span> <span id="cnt-amber">0</span> In Progress</div>
+  <div class="stat"><span class="dot dot-green"></span> <span id="cnt-green">0</span> Complete</div>
+</div>
+
+<!-- ── Criteria key ─────────────────────────────────── -->
+<div class="legend">
+  <strong>Criteria Key</strong>
+  <div class="legend-item"><span class="criteria criteria-p1">2A.P1</span> Design a digital portfolio for a defined audience and purpose.</div>
+  <div class="legend-item"><span class="criteria criteria-m1">2A.M1</span> Produce a detailed design including alternative design ideas.</div>
+  <div class="legend-item"><span class="criteria criteria-d1">2A.D1</span> Justify design decisions, explaining how they fulfill audience and constraints.</div>
+  <div class="legend-item"><span class="criteria criteria-p2">2B.P2</span> Prepare content and create web pages for a digital portfolio.</div>
+  <div class="legend-item"><span class="criteria criteria-p3">2B.P3</span> Test the digital portfolio for functionality.</div>
+  <div class="legend-item"><span class="criteria criteria-m2">2B.M2</span> Refine and create web pages, applying asset editing and optimization techniques.</div>
+  <div class="legend-item"><span class="criteria criteria-d2">2B.D2</span> Evaluate the digital portfolio against requirements, explaining refinements.</div>
+  <div class="legend-item" style="flex:1 0 100%; margin-top:.5rem; font-size:.82rem; color:#718096; font-style:italic;">Level 1 fallback criteria (if Level 2 not achieved):</div>
+  <div class="legend-item"><span class="criteria criteria-1b">1A.1</span> Outline a design for a digital portfolio for a defined audience and purpose.</div>
+  <div class="legend-item"><span class="criteria criteria-1b">1B.2</span> Prepare content and create outline web pages for a digital portfolio.</div>
+  <div class="legend-item"><span class="criteria criteria-1b">1B.3</span> Test the digital portfolio for basic, simple functionality.</div>
+</div>
+
+<!-- ── Colour key ──────────────────────────────────── -->
+<div class="legend">
+  <strong>Colour Key</strong>
+  <div class="legend-item"><span class="legend-swatch swatch-red"></span>   Not Started</div>
+  <div class="legend-item"><span class="legend-swatch swatch-amber"></span> In Progress</div>
+  <div class="legend-item"><span class="legend-swatch swatch-green"></span> Complete</div>
+</div>
+
+<!-- ── Action bar: downloads + reset ─────────────── -->
+<div class="actions">
+  <div class="download-group">
+    <span class="download-label">⬇ Download checklist:</span>
+    <button class="btn-download btn-csv"  id="btn-csv">📄 CSV</button>
+    <button class="btn-download btn-xlsx" id="btn-xlsx">📊 Google Sheets (.xlsx)</button>
+    <button class="btn-download btn-word" id="btn-word">📝 Word (.doc)</button>
+  </div>
+  <button class="btn-reset" id="btn-reset">🔄 Reset All Progress</button>
+</div>
+
+<!-- ── Checklist table ────────────────────────────── -->
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:2rem">✔</th>
+        <th>Evidence Item</th>
+        <th>Criteria</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="checklist-body">
+
+      <!-- ══ Section 1: Basic Project Lifecycle ════════════ -->
+      <tr class="section-row"><td colspan="6">🔄 Basic Project Lifecycle (Learning Aim A)</td></tr>
+      <tr class="task-row" data-id="1">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Planning the Design Stage (storyboards, structure chart, folder directories, assets inventory, software selection)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span> <span class="criteria criteria-1b">1A.1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="2">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Iterative Development cycle of creating, testing, and modifying the portfolio following structured user/peer feedback</td>
+        <td><span class="criteria criteria-p3">2B.P3</span> <span class="criteria criteria-1b">1B.3</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="3">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Formative Review process (evaluating portfolio features based on criteria feedback gathered from others)</td>
+        <td><span class="criteria criteria-d2">2B.D2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 2: Portfolio Structure ═══════════════ -->
+      <tr class="section-row"><td colspan="6">🕸 Digital Portfolio Structure (Learning Aim A)</td></tr>
+      <tr class="task-row" data-id="4">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Design of a Home page (includes a brief introduction and hyperlinks directly to various section pages)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span> <span class="criteria criteria-1b">1A.1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="5">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Design of Section pages (landing layouts that introduce the purpose of each section and list internal links to contents)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="6">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Design of Context pages (detailed views to host and contextualize individual files and showcase practical achievements)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 3: User Interface & Elements ══════════ -->
+      <tr class="section-row"><td colspan="6">🖥 User Interface &amp; Design Consistency (Learning Aim A)</td></tr>
+      <tr class="task-row" data-id="7">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Page Formatting rules (defining professional colour schemes, background accents, and standard readable fonts)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="8">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Asset plans for web pages (sourcing and listing images, layout shapes, audio, and video resources)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="9">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Navigation plan (consistent navbar layout, text links, icon buttons, and hover action consistency)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 4: Content Strategy ══════════════════ -->
+      <tr class="section-row"><td colspan="6">📁 Portfolio Content Strategy (Learning Aim A)</td></tr>
+      <tr class="task-row" data-id="10">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Content Selection strategy (how to select diverse extracts showcasing academic potential and work achievements)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="11">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Sourcing correct, web-safe file formats (.png, .jpg, .gif, .mp4, .mp3, .html) for universal compatibility</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="12">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Asset compression planning (managing resolution and bitrates to minimize page loading delay)</td>
+        <td><span class="criteria criteria-m1">2A.M1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="13">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Accessibility standards (alternate image text (alt tags), legible font sizing, contrast layout constraints)</td>
+        <td><span class="criteria criteria-m1">2A.M1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 5: Design Document Deliverables ══════ -->
+      <tr class="section-row"><td colspan="6">📝 Design Document Deliverables (Learning Aim A)</td></tr>
+      <tr class="task-row" data-id="14">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Written statement of Audience and Purpose (target age group profiles and portfolio goals description)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span> <span class="criteria criteria-1b">1A.1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="15">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Project Timeline Schedule (gantt-style outline schedule detailing key stages across lifecycle)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="16">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Logical folder structure map and asset directory listing layout (files list and folder organization chart)</td>
+        <td><span class="criteria criteria-p1">2A.P1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="17">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Detailed Site Structure Chart (sitemap diagrams showing parent, child, and context page links)</td>
+        <td><span class="criteria criteria-m1">2A.M1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="18">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Wireframe Storyboards for each page (illustrating layout panels, positioning, typography, margins)</td>
+        <td><span class="criteria criteria-m1">2A.M1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="19">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>At least TWO alternative design ideas (sketched and annotated wireframes)</td>
+        <td><span class="criteria criteria-m1">2A.M1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="20">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Justification of Design Decisions (reasoned argument on why certain design choices were adopted over others)</td>
+        <td><span class="criteria criteria-d1">2A.D1</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 6: Preparing Content Assets ═══════════ -->
+      <tr class="section-row"><td colspan="6">📦 Preparing Content Assets (Learning Aim B)</td></tr>
+      <tr class="task-row" data-id="21">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Gathering and sorting coursework evidence artifacts (spreadsheets, design plans, databases, screens)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-1b">1B.2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="22">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Converting files to web-compatible formats (converting raw source designs to PNG, proprietary audio to MP3)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="23">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Creating physical relative folder directories inside the workspace (images/, docs/, styles/)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-1b">1B.2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="24">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Relative pathways safety: ensuring no absolute local paths (e.g. C:/Users/Student...) are referenced in code</td>
+        <td><span class="criteria criteria-p2">2B.P2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 7: Page Creation & Authoring ═════════ -->
+      <tr class="section-row"><td colspan="6">💻 Web Page Creation &amp; Formatting (Learning Aim B)</td></tr>
+      <tr class="task-row" data-id="25">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Executing the color scheme consistently across all pages to build visual style patterns</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-1b">1B.2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="26">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Configuring structural alignment (using grids, CSS properties, or tables to line up content boundaries)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="27">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Typography execution: correct font family weightings, clear heading hierarchies, line spacing, and bullet list points</td>
+        <td><span class="criteria criteria-p2">2B.P2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="28">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Adding contextual commentary (written descriptions introducing the purpose, skills shown, and review of each artifact)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="29">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Integrating rich media assets (HTML5 video players, audio player controls, decorative lines, simple shapes)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span> <span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="30">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Interactive navbar installation (persistent global navigation bar utilizing text, buttons, and graphics links)</td>
+        <td><span class="criteria criteria-p2">2B.P2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+
+      <!-- ══ Section 8: Image Editing & Placement ══════════ -->
+      <tr class="section-row"><td colspan="6">🖼 Image Editing &amp; Placement (Learning Aim B)</td></tr>
+      <tr class="task-row" data-id="31">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Applying crop and sizing changes to fit dimensions without stretching the aspect ratios</td>
+        <td><span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="32">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Setting proper alignment and visual balance (position, alignment, orientation)</td>
+        <td><span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="33">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Text wrapping configuration (wrapping descriptions smoothly around screenshots instead of blocky white gaps)</td>
+        <td><span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+      <tr class="task-row" data-id="34">
+        <td><input type="checkbox" class="done-check" /></td>
+        <td>Image resolution management (optimizing PPI resolution for standard screens to support rapid portfolio rendering)</td>
+        <td><span class="criteria criteria-m2">2B.M2</span></td>
+        <td><span class="deadline" data-date="2026-05-15">15/05/2026</span></td>
+        <td><select class="status-select"><option>Not Started</option><option>In Progress</option><option>Complete</option></select></td>
+        <td><textarea class="notes-input" rows="1" placeholder="Add notes…"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>BTEC Level 1 &amp; 2 Unit 3: A Digital Portfolio &nbsp;·&nbsp; Learning Aims A &amp; B &nbsp;·&nbsp; Classification: DCL 1 &nbsp;·&nbsp; Date: 29 &nbsp;·&nbsp; Issue: August 2025 &nbsp;·&nbsp; Hand-in: 24th June, 3:59pm</footer>
+
+<!-- SheetJS for .xlsx / Google Sheets export -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+  /* ── Storage key ─────────────────────────────────────────── */
+  const STORAGE_KEY = 'unit3_portfolio_checklist_v2';
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+  const rows = () => document.querySelectorAll('tr.task-row');
+
+  function statusClass(val) {
+    if (val === 'Complete')    return 'status-green';
+    if (val === 'In Progress') return 'status-amber';
+    return 'status-red';
+  }
+
+  function selectClass(val) {
+    if (val === 'Complete')    return 'sel-green';
+    if (val === 'In Progress') return 'sel-amber';
+    return 'sel-red';
+  }
+
+  /* ── Apply styles to a row based on current state ───────── */
+  function applyRowStyles(row) {
+    const sel    = row.querySelector('.status-select');
+    const cb     = row.querySelector('.done-check');
+    const val    = sel.value;
+    const done   = cb.checked;
+
+    /* If checkbox ticked, force Complete */
+    if (done && val !== 'Complete') {
+      sel.value = 'Complete';
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      return;
+    }
+    /* If status set to Complete, tick the checkbox */
+    if (val === 'Complete' && !done) {
+      cb.checked = true;
+    }
+    /* If status set to Not Started / In Progress and checkbox is ticked, untick it */
+    if (val !== 'Complete' && done) {
+      cb.checked = false;
+    }
+
+    /* Row background */
+    row.classList.remove('status-red', 'status-amber', 'status-green');
+    row.classList.add(statusClass(sel.value));
+
+    /* Select colour */
+    sel.classList.remove('sel-red', 'sel-amber', 'sel-green');
+    sel.classList.add(selectClass(sel.value));
+  }
+
+  /* ── Mark overdue deadlines ──────────────────────────────── */
+  function markOverdue() {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    document.querySelectorAll('.deadline[data-date]').forEach(el => {
+      const d = new Date(el.dataset.date);
+      if (d < today) el.classList.add('overdue');
+    });
+  }
+
+  /* ── Update progress summary ─────────────────────────────── */
+  function updateSummary() {
+    let red = 0, amber = 0, green = 0;
+    rows().forEach(row => {
+      const v = row.querySelector('.status-select').value;
+      if (v === 'Complete')    green++;
+      else if (v === 'In Progress') amber++;
+      else red++;
+    });
+
+    document.getElementById('cnt-red').textContent   = red;
+    document.getElementById('cnt-amber').textContent = amber;
+    document.getElementById('cnt-green').textContent = green;
+  }
+
+  /* ── Save state to localStorage ─────────────────────────── */
+  function saveState() {
+    const state = {};
+    rows().forEach(row => {
+      const id = row.dataset.id;
+      state[id] = {
+        status: row.querySelector('.status-select').value,
+        checked: row.querySelector('.done-check').checked,
+        notes: row.querySelector('.notes-input').value
+      };
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  /* ── Load state from localStorage ───────────────────────── */
+  function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    try {
+      const state = JSON.parse(raw);
+      rows().forEach(row => {
+        const id  = row.dataset.id;
+        const saved = state[id];
+        if (!saved) return;
+        const sel = row.querySelector('.status-select');
+        const cb  = row.querySelector('.done-check');
+        const ta  = row.querySelector('.notes-input');
+        sel.value  = saved.status  || 'Not Started';
+        cb.checked = !!saved.checked;
+        ta.value   = saved.notes   || '';
+        applyRowStyles(row);
+      });
+    } catch(e) { /* ignore corrupt data */ }
+  }
+
+  /* ── Collect checklist data from the DOM ────────────────── */
+  function collectChecklistData() {
+    const data = [];
+    let currentSection = '';
+    document.querySelectorAll('tr.section-row, tr.task-row').forEach(row => {
+      if (row.classList.contains('section-row')) {
+        currentSection = row.querySelector('td').textContent.trim();
+      } else {
+        const criteria = Array.from(row.querySelectorAll('.criteria'))
+          .map(c => c.textContent.trim()).join(', ');
+        data.push({
+          section:  currentSection,
+          done:     row.querySelector('.done-check').checked ? 'Yes' : 'No',
+          evidence: row.querySelector('td:nth-child(2)').textContent.trim(),
+          criteria,
+          deadline: row.querySelector('.deadline').textContent.trim(),
+          status:   row.querySelector('.status-select').value,
+          notes:    row.querySelector('.notes-input').value
+        });
+      }
+    });
+    return data;
+  }
+
+  /* ── Trigger a file download from a Blob ─────────────────── */
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement('a');
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+
+  /* ── Download as CSV ─────────────────────────────────────── */
+  function downloadCSV() {
+    const TITLE     = 'BTEC Level 1 & 2 – Unit 3: A Digital Portfolio – Learning Aim A & B – Evidence Checklist';
+    const DEADLINE  = 'Hand-in Deadline: 24th June 2026 · 3:59pm';
+    const ASSESSOR  = 'Assessor: Sixth-Form Portfolio Assessor';
+    const generated = 'Generated: ' + new Date().toLocaleString('en-GB');
+
+    function csvRow(cells) {
+      return cells.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',');
+    }
+
+    const lines = [
+      csvRow([TITLE]),
+      csvRow([DEADLINE]),
+      csvRow([ASSESSOR]),
+      csvRow([generated]),
+      '',
+      csvRow(['Section', 'Done', 'Evidence Item', 'Criteria', 'Deadline', 'Status', 'Notes'])
+    ];
+
+    let lastSection = '';
+    collectChecklistData().forEach(d => {
+      if (d.section !== lastSection) {
+        lines.push(csvRow([d.section, '', '', '', '', '', '']));
+        lastSection = d.section;
+      }
+      lines.push(csvRow([d.section, d.done, d.evidence, d.criteria, d.deadline, d.status, d.notes]));
+    });
+
+    /* UTF-8 BOM so Excel/Sheets opens with correct encoding */
+    const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    downloadBlob(blob, 'Unit3_Portfolio_Checklist.csv');
+  }
+
+  /* ── Download as Google Sheets-compatible .xlsx ──────────── */
+  function downloadXLSX() {
+    const data       = collectChecklistData();
+    const TITLE      = 'BTEC Level 1 & 2 – Unit 3: A Digital Portfolio – Learning Aim A & B – Evidence Checklist';
+    const DEADLINE   = 'Hand-in Deadline: 24th June 2026 · 3:59pm';
+    const ASSESSOR   = 'Assessor: Sixth-Form Portfolio Assessor';
+    const generated  = 'Generated: ' + new Date().toLocaleString('en-GB');
+
+    /* ── Build rows for the Checklist sheet ── */
+    const aoa = [
+      [TITLE],
+      [DEADLINE],
+      [ASSESSOR],
+      [generated],
+      [],
+      ['Section', 'Done', 'Evidence Item', 'Criteria', 'Deadline', 'Status', 'Notes']
+    ];
+
+    let lastSection = '';
+    data.forEach(d => {
+      if (d.section !== lastSection) {
+        aoa.push([d.section]);   /* section header row */
+        lastSection = d.section;
+      }
+      aoa.push([d.section, d.done, d.evidence, d.criteria, d.deadline, d.status, d.notes]);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+
+    /* Column widths (characters) */
+    ws['!cols'] = [
+      { wch: 42 }, /* Section       */
+      { wch: 6  }, /* Done          */
+      { wch: 70 }, /* Evidence Item */
+      { wch: 22 }, /* Criteria      */
+      { wch: 12 }, /* Deadline      */
+      { wch: 14 }, /* Status        */
+      { wch: 40 }  /* Notes         */
+    ];
+
+    /* Merge title cells across all 7 columns for rows 1-4 */
+    ws['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 6 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 6 } },
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 6 } },
+      { s: { r: 3, c: 0 }, e: { r: 3, c: 6 } }
+    ];
+
+    /* ── Build a summary sheet ── */
+    let red = 0, amber = 0, green = 0;
+    data.forEach(d => {
+      if (d.status === 'Complete')    green++;
+      else if (d.status === 'In Progress') amber++;
+      else red++;
+    });
+    const total = data.length;
+    const pct   = total === 0 ? 0 : Math.round((green / total) * 100);
+
+    const summaryAoa = [
+      ['BTEC Unit 3 Portfolio Checklist: Summary'],
+      [generated],
+      [],
+      ['Metric', 'Count'],
+      ['Total items',    total],
+      ['Not Started',    red],
+      ['In Progress',    amber],
+      ['Complete',       green],
+      ['% Complete',     pct + '%']
+    ];
+    const wsSummary = XLSX.utils.aoa_to_sheet(summaryAoa);
+    wsSummary['!cols'] = [{ wch: 20 }, { wch: 12 }];
+    wsSummary['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 1 } }
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws,        'Checklist');
+    XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+    XLSX.writeFile(wb, 'Unit3_Portfolio_Checklist.xlsx');
+  }
+
+  /* ── Download as Word-compatible document (.docx) ────────── */
+  function downloadWord() {
+    const data      = collectChecklistData();
+    const generated = new Date().toLocaleString('en-GB');
+
+    /* Build an HTML table for each section */
+    let tableRows = '';
+    let lastSection = '';
+    data.forEach(d => {
+      if (d.section !== lastSection) {
+        tableRows += `
+          <tr>
+            <td colspan="6" style="background:#2b6cb0;color:#fff;font-weight:bold;padding:8px 10px;font-size:11pt;">
+              ${escHtml(d.section)}
+            </td>
+          </tr>`;
+        lastSection = d.section;
+      }
+      const doneSymbol = d.done === 'Yes' ? '✔' : '☐';
+      const statusBg   = d.status === 'Complete'    ? '#c6f6d5' : d.status === 'In Progress' ? '#fef3c7' : '#fed7d7';
+      tableRows += `
+        <tr>
+          <td style="text-align:center;font-size:12pt;">${doneSymbol}</td>
+          <td>${escHtml(d.evidence)}</td>
+          <td>${escHtml(d.criteria)}</td>
+          <td style="white-space:nowrap;">${escHtml(d.deadline)}</td>
+          <td style="background:${statusBg};font-weight:bold;">${escHtml(d.status)}</td>
+          <td>${escHtml(d.notes)}</td>
+        </tr>`;
+    });
+
+    const html = `<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40"><head>
+  <meta charset="utf-8">
+  <title>BTEC Unit 3 Evidence Checklist</title>
+  <style>
+    body        { font-family: Calibri, Arial, sans-serif; font-size: 10pt; margin: 2cm; }
+    h1          { font-size: 14pt; color: #1a365d; margin-bottom: 4pt; }
+    h2          { font-size: 11pt; color: #2b6cb0; margin-top: 12pt; }
+    p.meta      { font-size: 9pt; color: #4a5568; margin: 2pt 0; }
+    table       { border-collapse: collapse; width: 100%; margin-top: 12pt; }
+    th          { background: #2d3748; color: #fff; font-size: 9pt; padding: 5px 7px;
+                  text-align: left; font-weight: bold; }
+    td          { border: 1px solid #cbd5e0; padding: 5px 7px; font-size: 9pt;
+                  vertical-align: top; }
+    tr:nth-child(even) td { background: #f7fafc; }
+  </style></head><body>
+  <h1>📋 BTEC Level 1 &amp; 2 – Unit 3: A Digital Portfolio</h1>
+  <p class="meta">Assignment 1: Portfolio Design, Development and Testing</p>
+  <p class="meta">Assessor: Sixth-Form Portfolio Assessor &nbsp;·&nbsp; Hand-in: Friday 15th May 2026, 3:59pm</p>
+  <p class="meta">Generated: ${escHtml(generated)}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:2%;">✔</th>
+        <th style="width:38%;">Evidence Item</th>
+        <th style="width:13%;">Criteria</th>
+        <th style="width:10%;">Deadline</th>
+        <th style="width:12%;">Status</th>
+        <th style="width:25%;">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows}
+    </tbody>
+  </table></body></html>`;
+
+    const blob = new Blob(['\uFEFF' + html], { type: 'application/msword' });
+    downloadBlob(blob, 'Unit3_Portfolio_Checklist.doc');
+  }
+
+  /* ── HTML escape helper ──────────────────────────────────── */
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── Wire up events ──────────────────────────────────────── */
+  function wireEvents() {
+    rows().forEach(row => {
+      const sel = row.querySelector('.status-select');
+      const cb  = row.querySelector('.done-check');
+      const ta  = row.querySelector('.notes-input');
+
+      sel.addEventListener('change', () => { applyRowStyles(row); updateSummary(); saveState(); });
+      cb.addEventListener('change',  () => { applyRowStyles(row); updateSummary(); saveState(); });
+      ta.addEventListener('input',   () => { saveState(); });
+    });
+
+    document.getElementById('btn-csv').addEventListener('click',  downloadCSV);
+    document.getElementById('btn-xlsx').addEventListener('click', downloadXLSX);
+    document.getElementById('btn-word').addEventListener('click', downloadWord);
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (!confirm('Reset ALL progress? This cannot be undone.')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      rows().forEach(row => {
+        row.querySelector('.status-select').value = 'Not Started';
+        row.querySelector('.done-check').checked  = false;
+        row.querySelector('.notes-input').value   = '';
+        applyRowStyles(row);
+      });
+      updateSummary();
+    });
+  }
+
+  /* ── Init ────────────────────────────────────────────────── */
+  function init() {
+    /* Apply initial default styles */
+    rows().forEach(row => applyRowStyles(row));
+    markOverdue();
+    loadState();
+    updateSummary();
+    wireEvents();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
